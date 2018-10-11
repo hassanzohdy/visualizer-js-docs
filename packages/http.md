@@ -59,7 +59,7 @@ This package contains three components:
 
 Package: `core/http/http`.
 
-Parent Package: [core/http](#http-package).
+Parent Package: [core/http](#http).
 
 Required: **Yes**.
 
@@ -331,7 +331,7 @@ class HomePage extends Layout.Page {
 
 Package: `core/http/endpoint`.
 
-Parent Package: [core/http](#http).
+Parent Package: [core/http](#http-package).
 
 Required: **Yes**.
 

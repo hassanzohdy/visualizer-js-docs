@@ -1,4 +1,4 @@
-# Http package
+# Http
 
 The http component is responsible for handling remote `AJAX` || `XHR` requests either for API requests or for any 3d party requests.
 
@@ -13,11 +13,11 @@ Required: **Yes**.
 Dependencies: [Events](./events.md).
 
 # Table of contents
-- [Http package](#http-package)
+- [Http](#http)
 - [Package info](#package-info)
 - [Table of contents](#table-of-contents)
 - [Sub components](#sub-components)
-- [Http](#http)
+- [Http package](#http-package)
     - [Methods](#methods)
         - [Send](#send)
             - [Arguments](#arguments)
@@ -43,7 +43,7 @@ Dependencies: [Events](./events.md).
     - [Configurations](#configurations)
     - [Events](#events)
         - [Example](#example-4)
-- [Endpoint](#endpoint)
+- [Endpoint package](#endpoint-package)
     - [Endpoint Configurations](#endpoint-configurations)
         - [Examples](#examples)
 
@@ -55,7 +55,7 @@ This package contains three components:
 - [Endpoint Service](#endpoint-service)
 
 
-# Http
+# Http package
 
 Package: `core/http/http`.
 
@@ -327,7 +327,7 @@ class HomePage extends Layout.Page {
 }
 ```
 
-# Endpoint
+# Endpoint package
 
 Package: `core/http/endpoint`.
 
@@ -335,7 +335,7 @@ Parent Package: [core/http](#http-package).
 
 Required: **Yes**.
 
-Dependencies: [Http](#http.md).
+Dependencies: [Http](#http-package.md).
 
 Alias: `endpoint`
 

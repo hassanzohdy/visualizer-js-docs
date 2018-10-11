@@ -50,9 +50,9 @@ Dependencies: [Events](./events.md).
 # Sub components
 This package contains three components:
 
-- [Http](#http)
-- [Endpoint](#endpoint)
-- [Endpoint Service](#endpoint-service)
+- [Http](#http-package)
+- [Endpoint](#endpoint-package)
+- [Endpoint Service](#endpoint-service-package)
 
 
 # Http package
@@ -335,7 +335,7 @@ Parent Package: [core/http](#http-package).
 
 Required: **Yes**.
 
-Dependencies: [Http](#http-package.md).
+Dependencies: [core/http/http](#http-package.md).
 
 Alias: `endpoint`
 

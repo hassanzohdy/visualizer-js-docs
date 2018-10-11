@@ -329,7 +329,7 @@ Parent Package: [core/http](#http-package).
 
 Required: **Yes**.
 
-Dependencies: [core/http/http](#http-package).
+Dependencies: [core/http/http](#http-package), [User](./user.md).
 
 Alias: `endpoint`
 

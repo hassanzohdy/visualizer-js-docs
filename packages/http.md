@@ -12,7 +12,7 @@ Required: **Yes**.
 
 Dependencies: [Events](./events.md).
 
-Components: [Http](#http-package) [Endpoint](#endpoint-package) [Endpoint Service](#endpoint-service-package)
+Components: [Http](#http-package), [Endpoint](#endpoint-package), [Endpoint Service](#endpoint-service-package)
 
 # Table of contents
 - [Http](#http)

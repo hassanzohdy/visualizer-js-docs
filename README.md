@@ -1,5 +1,5 @@
 # Visualizer JS (Version 1.0)
-> Visualizer JS is a javascript framework for frontend development
+> [Visualizer JS](https://github.com/hassanzohdy/visualizer-js) is a javascript framework for frontend development
 
 # Table Of Contents
 - [Visualizer JS (Version 1.0)](#visualizer-js-version-10)

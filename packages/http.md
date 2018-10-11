@@ -12,17 +12,11 @@ Required: **Yes**.
 
 Dependencies: [Events](./events.md).
 
-# Components(Sub Packages)
-This package contains three components:
-
-- [Http](#http-package)
-- [Endpoint](#endpoint-package)
-- [Endpoint Service](#endpoint-service-package)
+Components: [Http](#http-package) [Endpoint](#endpoint-package) [Endpoint Service](#endpoint-service-package)
 
 # Table of contents
 - [Http](#http)
 - [Package info](#package-info)
-- [Components(Sub Packages)](#componentssub-packages)
 - [Table of contents](#table-of-contents)
 - [Http package](#http-package)
     - [Methods](#methods)

@@ -335,7 +335,7 @@ Parent Package: [core/http](#http-package).
 
 Required: **Yes**.
 
-Dependencies: [core/http/http](#http-package.md).
+Dependencies: [core/http/http](#http-package).
 
 Alias: `endpoint`
 

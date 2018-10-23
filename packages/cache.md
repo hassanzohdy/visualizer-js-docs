@@ -64,7 +64,7 @@ class HomePage {
 
 `set(key: String, value: any, expiresAt: Number = Cache.FOREVER): Self`
 
-This method accepts any type of values ad it will handle it automatically, so if you want to store object, you don't have to `JSON.stringify` it, the package will take care of it.
+This method accepts any type of values, the cache engine will handle it automatically, so if you want to store object, you don't have to `JSON.stringify` it, the package will take care of it.
 
 The `expiresAt` parameter is used to determine until when he value should be stored in.
 

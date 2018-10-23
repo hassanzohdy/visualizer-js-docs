@@ -38,9 +38,10 @@ Alias: `cache`.
 Once you resolve the cache object you can use the methods below.
 
 ```javascript
+// Anywhere in the application
 let cache = DI.resolve('cache');
 
-// in any page you can call it in the bootstrap method as well
+// Or in any page you can call it in the bootstrap method as well
 
 class HomePage {
     /**

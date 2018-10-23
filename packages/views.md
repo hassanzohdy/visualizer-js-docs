@@ -14,6 +14,8 @@ Required: **Yes**.
 
 Dependencies: [Application](./application.md).
 
+Alias: `view`.
+
 # Table of contents
 - [Views](#views)
 - [Package info](#package-info)
@@ -25,8 +27,8 @@ Dependencies: [Application](./application.md).
         - [Syntax](#syntax)
         - [Example](#example)
     - [Framework/Plugins](#frameworkplugins)
-        - [Syntax](#syntax-1)
-        - [Example](#example-1)
+        - [Syntax](#syntax)
+        - [Example](#example)
 - [Passing data to view file](#passing-data-to-view-file)
 - [Control structure](#control-structure)
     - [If and else if](#if-and-else-if)
@@ -35,7 +37,7 @@ Dependencies: [Application](./application.md).
 - [Inline loops and conditions](#inline-loops-and-conditions)
 - [Writing Javascript code inside the view file](#writing-javascript-code-inside-the-view-file)
     - [let and var](#let-and-var)
-        - [Example](#example-2)
+        - [Example](#example)
     - [Writing custom statement](#writing-custom-statement)
     - [Multiple javascript code lines](#multiple-javascript-code-lines)
         - [@echo](#echo)
@@ -44,20 +46,20 @@ Dependencies: [Application](./application.md).
     - [Element target](#element-target)
 - [Special attributes](#special-attributes)
         - [Boolean attributes](#boolean-attributes)
-        - [Syntax](#syntax-2)
-        - [Example](#example-3)
+        - [Syntax](#syntax)
+        - [Example](#example)
     - [Available boolean attributes](#available-boolean-attributes)
 - [Special classes](#special-classes)
-    - [Syntax](#syntax-3)
+    - [Syntax](#syntax)
 - [Styling](#styling)
-    - [Syntax](#syntax-4)
-        - [Example](#example-4)
+    - [Syntax](#syntax)
+        - [Example](#example)
     - [Available properties](#available-properties)
     - [Passing style object](#passing-style-object)
-        - [Example](#example-5)
+        - [Example](#example)
     - [Passing object of html attributes](#passing-object-of-html-attributes)
-        - [Syntax](#syntax-5)
-        - [Example](#example-6)
+        - [Syntax](#syntax)
+        - [Example](#example)
 - [Nested views](#nested-views)
 - [Restrictions](#restrictions)
 
@@ -738,7 +740,7 @@ class Users {
         };
 
         let data = {
-            name: 'hasan,
+            name: 'hasan',
             userNameStyling: userNameStyling,
         };
 
@@ -802,7 +804,7 @@ Output
 
 
 # Nested views
-One of hhe mostly useful advantages in our view engine is `nested views` which means you can `inject` or `call` view inside another view
+One of the mostly useful advantages in our view engine is `nested views` which means you can `inject` or `call` view inside another view
 
 Let's take our `list.html` for example
 

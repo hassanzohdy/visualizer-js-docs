@@ -85,7 +85,7 @@ let httpOptions = Config.get('http');
 httpOptions = {
     endpoint: {
         baseUrl: '',
-        apiKey: '', // used with the `key` for Authorization header 
+        apiKey: ''
     }
 ```
 

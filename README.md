@@ -9,6 +9,7 @@
 - [Getting started](#getting-started)
 - [Packages](#packages)
 - [Available packages](#available-packages)
+- [Cli](#cli)
 - [Production](#production)
 
 # Requirements
@@ -50,6 +51,11 @@ For more details about how to create a package and what is package consists of c
 
 # Available packages
 For full list of the available packages in the framework [click here](./packages-list.md).
+
+# Cli
+The framework has a simple, elegant and powerful cli took to handle your applications.
+
+You can see the full commands of the cli and how it works from [here](./cli.md).
 
 # Production
 Now to generate the production files run the following command

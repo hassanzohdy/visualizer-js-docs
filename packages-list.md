@@ -17,7 +17,6 @@ The core package consists of many packages that are must be included in any appl
 - [Config](./packages/config.md)
 - [Views](./packages/views.md)
 - [Layout](./packages/layout.md)
-    - [Layout package](./packages/layout.md#layout-package)
     - [Layout.Page package](./packages/layout.md#layout-page-package)
     - [Layout.Partial package](./packages/layout.md#layout-partial-package)
 - [Events](./packages/events.md)

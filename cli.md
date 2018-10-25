@@ -9,6 +9,7 @@ The framework has a simple, elegant and powerful cli took to handle your applica
 - [Commands list](#commands-list)
 - [Install](#install)
 - [Global](#global)
+    - [Available options](#available-options)
 - [Serve](#serve)
 - [Build](#build)
 - [New page](#new-page)
@@ -46,7 +47,7 @@ i.e
 
 `php visualize global --colored --silent=false --baseApp=myAppName`
 
-Available options
+## Available options
 
 | command     | Default   | Description                                                                                                                                                  |
 | ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |

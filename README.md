@@ -23,11 +23,23 @@
 # Getting started
 After a successful installation of the framework, let's try to use it.
 
-First of, build your app, which is `blog` as it is integrated with the framework with your first installation.
+Edit the `config.json` file and update the `baseUrl.development` to match the current directory name.
 
-`php visualize build blog`
+i.e `http://localhost/visualizer-js`
 
-Once it's done, go to your browse then go to `http://localhost/visualizer-js`.
+Where `visualizer-js` is your root directory.
+
+Now let's start run our application.
+
+Run the following command to start the application automatically.
+
+`php visualize serve`
+
+Or 
+
+`php visualize serve appName` which would be `blog` by default.
+
+Once the application is ready to be lunched, the application will be opened in the browser.
 
 You will see `Visualizer JS` in the middle of the page.
 
@@ -40,15 +52,12 @@ For more details about how to create a package and what is package consists of c
 For full list of the available packages in the framework [click here](./packages-list.md).
 
 # Production
-To make the production version for any application we will need to have node installed on your machine or in your server only to make the production.
-
-After installing nodejs run the following command in root directory **Do it only once**
-`npm install`
-
 Now to generate the production files run the following command
 `php visualize produce app-name`
 
 For example
 `php visualize produce blog`
 
-Then change the environment in config.json file to `production`
+Then change the environment in config.json file to `production`.
+
+And now you're ready!

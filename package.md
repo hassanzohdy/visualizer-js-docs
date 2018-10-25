@@ -75,10 +75,12 @@ This is the full schema of the `package.json` file
 
 # Newly created packages
 
-After creating your package, you need to rebuild your application again.
+After creating your package, you need to rebuild your application again if you are not running the `serve` command.
 
 i.e: `php visualize build blog`.
 
 Adding new javascript files to the package will require another build to be cached in the javascript files list.
 
 > New Html and scss files don't need a rebuild for the application.
+
+If the server is already running it will rebuild the application automatically so you won't have to rebuild it again.

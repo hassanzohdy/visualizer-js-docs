@@ -11,41 +11,17 @@ Parent Package: [core](./core.md).
 
 Required: **Yes**.
 
-Components: [Layout](#layout-package), [Layout Page](#layout-page-package), [Layout Smart Page](#layout-smart-page-package), [Layout Partial](#layout-partial-package)
+Components: [Layout](#layout-package), [Layout Page](#layout-page), [Layout Smart Page](#layout-smart-page), [Layout Partial](#layout-partial)
 
 # Table of contents
 - [Layout](#layout)
 - [Package info](#package-info)
 - [Table of contents](#table-of-contents)
 - [Layout package](#layout-package)
-    - [Methods](#methods)
-        - [Send](#send)
-            - [Arguments](#arguments)
-            - [Return type](#return-type)
-            - [Example](#example)
-        - [Get](#get)
-            - [Arguments](#arguments-1)
-        - [Post](#post)
-            - [Arguments](#arguments-2)
-            - [Data types](#data-types)
-        - [Put](#put)
-            - [Arguments](#arguments-3)
-        - [Patch](#patch)
-            - [Arguments](#arguments-4)
-        - [Delete](#delete)
-            - [Arguments](#arguments-5)
-        - [Scripts](#scripts)
-            - [Example](#example-1)
-        - [Stylesheets](#stylesheets)
-            - [Example](#example-2)
-        - [Assets](#assets)
-            - [Example](#example-3)
-    - [Configurations](#configurations)
-    - [Events](#events)
-        - [Example](#example-4)
-- [Endpoint package](#endpoint-package)
-    - [Endpoint Configurations](#endpoint-configurations)
-        - [Examples](#examples)
+    - [The base layout](#the-base-layout)
+        - [Configurations](#configurations)
+    - [Accessing pages and partials](#accessing-pages-and-partials)
+- [Layout Page](#layout-page)
 
 
 # Layout package
@@ -56,345 +32,193 @@ Parent Package: [core/layout](#layout).
 
 Required: **Yes**.
 
-Dependencies: [Events](./events.md), [Views](./views.md) [Dom](./dom.md), [Jquery](./jquery.md).
+Dependencies: [Events](./events.md), [Views](./views.md) [Dom](./dom.md), [Jquery](./jquery.md) [Dom](./dom.md), [Config](./config.md).
 
-Alias: `http`
+Alias: `layout`
 
-The Http component is the main component in the `core/http` package as its the responsible one for sending requests.
+The layout is the middleware between the [Router](./router.md) class which checks that is the proper page to be loaded based on the current route and the page that should be loaded.
 
-## Methods
-- [send](#send)
-- [get](#get)
-- [post](#post)
-- [put](#put)
-- [patch](#patch)
-- [delete](#delete)
-- [scripts](#scripts)
-- [styleSheets](#stylesheets)
-- [assets](#assets)
+It's also responsible for setting the content of any [Partial](#layout-partial-package) in the dom.
 
+## The base layout
+As the framework generates the full page layout, you've the ability to define what to be set in the `body` tag for your application.
 
-### Send
-`send(Object options): Promise`
+You can set any partials you want besides the `main` tag as this is the only required tag to be set in your layout structure file.
 
-This method will send an Ajax `XHR` request based on the given options.
+### Configurations
+In the [app configurations](./config.md) you can set your `basePath` under the `layout` key.
 
-#### Arguments
-
-`options`: Type **Object**
-
-Basically, the `send` method is using [jQuery.ajax() method](http://api.jquery.com/jquery.ajax/) to send an `XHR` request so options will be much the same except for few things.
-
-`options.progress`: callback
-
-If you want to calculate the progress of the request, i.e when uploading the file, this option will give you the current progress percentage value.
-
-For example
-
+`config.js`
 ```javascript
-http.send({
-    type: 'POST',
-    data: new FormData(document.getElementById('my-form')),
-    progress: function (percentageValue) {
-        echo(percentage); // it will be changed frequently based on the current percentage value of the uploading/sending process. 
+
+Config.extend({
+    layout: {
+        basePath: 'layout/layout/layout-structure',
     }
-})
-```
-
-By default, for sending data in `POST`, `PATCH` or `PUT` requests, the proper content type and processing data will be set automatically so it won't be needed to send any extra options like: `contentType`, `processData` or `cache`. 
-
-#### Return type
-This method returns a [Promise Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) which follows the standard of [Promises/A+](https://promisesaplus.com/) so the response of the request will be used in `then` method and the error will be in the `catch` method.
-
-#### Example
-
-```javascript
-http.send({
-    url: 'https://google.com',
-}).then((response, statusCode, xhr) => {
-    // on success request
-}).catch((responseError, statusCode, errorThrown, xhr) => {
-    // response with other status than 200
 });
 ```
 
-### Get
+The `basePath` is the path of the layout in your application directory.
 
-This is a shorthand method for [send](#send) method for creating `GET` method
+You may use more than one layout based on certain criteria.
 
-`get(string url, Object Options = {}): Promise`
+For example, you may want to use a layout for a **non logged-in** user and another layout structure for **logged-in** user.
 
-#### Arguments
+Let's assume the following scenario:
 
-`url` Type: **String** `Required`
-`options` Type: **Object** `Optional`, this parameter is used more options than the `url` parameter.
+We're developing an admin panel and the user is not logged in, so we will display only the login page.
 
+Once the user is logged in, we need to change the layout structure to display a **header**, **footer**, **sidebar**, **breadcrumbs** and **the page content**.
+
+`app.js`
 ```javascript
-http.get('https://google.com').then(response => {
-    // do something
+/**
+  * {@inheritDoc}
+  */
+ init() {
+     let layout = DI.resolve('layout),
+    user = DI.resolve('user');
+
+    user.onLogin(() => {
+        layout.rebuild('layout/layout/logged-in-layout');
+    }).onLogout(() => {
+        layout.rebuild('layout/layout/non-logged-in-layout');
+    });
+ } 
+```
+
+We may also based set the current layout based on the user login status from the beginning by passing a `callback` function to `basePath` key instead of layout path.
+
+
+`config.js`
+```javascript
+
+Config.extend({
+    layout: {
+        basePath: () => {
+            let user = DI.resolve('user');
+            return user.isLoggedIn() ? 'layout/layout/logged-in-layout' :
+                                       'layout/layout/non-logged-in-layout ;
+        },
+    }
 });
 ```
 
-### Post
-This is a shorthand method for [send](#send) method for creating `POST` method
+As mentioned earlier, the base path will be determined based on the current user status.
 
-`post(string url, mixed data): Promise`
+So we may refine our user events on login or logout as follows:
 
+`app.js`
+```javascript
+/**
+  * {@inheritDoc}
+  */
+ init() {
+     let layout = DI.resolve('layout),
+    user = DI.resolve('user');
 
-#### Arguments
+    user.onLogin(() => {
+        layout.rebuild();
+    }).onLogout(() => {
+        layout.rebuild();
+    });
+ } 
+```
+By not passing any arguments to `rebuild` method, it will go and get the default value which is in the `layout.basePath` and the callback will be triggered again and check the current status of the user then it will take the proper base path accordingly.
 
-`url`: Type: **String** `Required`
-`data`: Type: **mixed** `Required`
-`options` Type: **Object** `Optional`, this parameter is used more options than the `url` and `data` parameters.
+## Accessing pages and partials
+Once the application is ready, from now on you can access your pages/partials through the layout object.
 
-#### Data types
+The accessing key from the layout is based on the [Page name](#page-name).
 
-The `data` parameter could be many types as follows:
-
-- **Plain Object**
+i.e
 
 ```javascript
-http.post('https://my-backend.com/api/register', {
-    name: 'Hasan',
-    email: 'hassanzohdy@gmail.com',
-}).then(response => {
-    // do something
-});
+let layout = DI.resolve('layout'),
+    homePage = layout.home;
 ```
 
-- **FormData Object**
 
-```javascript
-http.post('https://my-backend.com/api/register', new FormData(document.getElementById('my-form'))).then(response => {
-    // do something
-});
-```
+# Layout Page
 
-- **jQuery Object**
+Package: `core/layout/page`.
 
-```javascript
-http.post('https://my-backend.com/api/register', $('#my-form')).then(response => {
-    // do something
-});
-```
+Parent Package: [core/layout](#layout).
 
-- **String**
+Required: **Yes**.
 
-```javascript
-http.post('https://my-backend.com/api/register', 'name=hasan&email=hassanzohdy@gmail.com').then(response => {
-    // do something
-});
-```
+Dependencies: [Events](./events.md), [Views](./views.md) [Dom](./dom.md), [Router](./router.md)  [Layout](#layout-package).
 
-- [FormHandler Object](./forms/form-handler.md)
+Alias: `N/a`
 
-```javascript
-let myForm = forms.get('#my-form');
-http.post('https://my-backend.com/api/register', myForm).then(response => {
-    // do something
-});
-```
+The `Layout.Page` is considered as an `abstract class` as it's meant to be used fro inheritance only.
 
-### Put
-This is a shorthand method for [send](#send) method for creating `PUT` method
+Any page should extend the layout page as it sets most of the page configurations automatically.
 
-`put(string url, mixed data): Promise`
-
-#### Arguments
-
-`url`: Type: **String** `Required`
-[data](#data-types): Type: **mixed** `Required`
-`options` Type: **Object** `Optional`, this parameter is used more options than the `url` and `data` parameters.
-
-### Patch
-This is a shorthand method for [send](#send) method for creating `PATCH` method
-
-`patch(string url, mixed data): Promise`
-
-#### Arguments
-
-`url`: Type: **String** `Required`
-[data](#data-types): Type: **mixed** `Required`
-`options` Type: **Object** `Optional`, this parameter is used more options than the `url` and `data` parameters.
-
-### Delete
-
-This is a shorthand method for [send](#send) method for creating `DELETE` method.
-
-`delete(string url, Object Options = {}): Promise`
-
-#### Arguments
-
-`url` Type: **String** `Required`
-
-```javascript
-http.delete('https://my-backend.com/api/posts/12').then(response => {
-    // do something
-});
-```
-
-### Scripts
-This method is used to load javascript files.
-
-`scripts(array scripts): Promise`
-
-#### Example
-```javascript
-http.scripts([
-    'https://cdn.my-site.com/js/my-js-file.js',
-    'https://cdn.my-site.com/js/my-js-file-2.js',
-    'https://cdn.my-site.com/js/my-js-file-3.js',
-]).then(() => {
-    // do something after loading all scripts
-});
-```
-
-### Stylesheets
-This method is used to load css files.
-
-`stylesheets(array styleSheets): Promise`
-
-#### Example
-```javascript
-http.stylesheets([
-    'https://cdn.my-site.com/css/my-css-file.css',
-    'https://cdn.my-site.com/css/my-css-file-2.css',
-    'https://cdn.my-site.com/css/my-css-file-3.css',
-]).then(() => {
-    // do something after loading all stylesheets
-});
-```
-
-### Assets
-This method is used to load javascript and css files in same time.
-
-`assets(array scripts, array styleSheets): Promise`
-
-#### Example
-```javascript
-http.assets([
-    'https://cdn.my-site.com/js/my-js-file.js',
-    'https://cdn.my-site.com/js/my-js-file-2.js',
-    'https://cdn.my-site.com/js/my-js-file-3.js',
-], [
-    'https://cdn.my-site.com/css/my-css-file.css',
-    'https://cdn.my-site.com/css/my-css-file-2.css',
-    'https://cdn.my-site.com/css/my-css-file-3.css',
-]).then(() => {
-    // do something after loading all javascript and css files
-});
-```
-
-## Configurations
-
-In your application `config.json`, these are the available options for this component.
-
-Main Configuration key: `http`
-
-| key | Type | Default value | Description | 
-|---|---|---|---|
-| uploadablePut | `Boolean` | **true** | As most browsers don't `support` uploading files in the `PUT` requests, If this option is set to true, then when sending new `PUT` request it will be changed to `POST` request with a hidden field `_method`  = **PUT** as `PUT` requests don't allow uploading files. [Click here for more details.](https://github.com/laravel/framework/issues/13457)  |
-
-
-## Events
-
-| Event | callback parameters | Description |
-|---|---|---|
-| `http.loading-url` | `Request url`, `ajax options list` | This event is triggered before sending any request, if the return value of the callback is `false`, then the request will not be sent. |
-
-### Example
+`HomePage.js`
 
 ```javascript
 class HomePage extends Layout.Page {
-    bootstrap(events, http) {
-        events.on('http.loading-url', function (url, options) {
-            // do something here before loading that url
+    /**
+     * Set the main configurations of the page
+     *
+     * This method is triggered only once during the request life cycle
+     */
+    bootstrap() {
+        this.name = 'home';
 
-            // to prevent calling that request return false 
-            return false;
-        });
+        this.viewName = 'page';
 
-        // send a request to google.
-        http.get('https://google.com');
+        this.title = 'Home Page';
+    }
+
+    /**
+     * This method is triggered once the visitors hits the home page route
+     */
+    init() {
+        
+    }
+
+    /**
+     * This method is triggered after the page content is rendered
+     */
+    ready() {
     }
 }
 ```
 
-# Endpoint package
-
-Package: `core/http/endpoint`.
-
-Parent Package: [core/http](#http-package).
-
-Required: **Yes**.
-
-Dependencies: [Http](#http-package), [User](./user.md).
-
-Alias: `endpoint`
-
-The **Endpint** component is a sub component of the `core/http` package as its used to handle requests directly with your backend without setting the full url each time you want to send a new request to your backend API.
-
-By default, this component is loaded under the `core/http` main package so you don't need to include it manually if you already included the `core` or the `core/http` package.
-
-The idea here is that you set a `baseUrl` for your backend in your [Configurations](./../configurations.md) the `config.js` file in your application directory and all you've to do is just to call a `routes` or `endpoints` directly using this component.
-
-## Endpoint Configurations
-Configuration main key: `http.endpoint`
+As sometimes the view we don't want to display it until we get some data from the backend, in that case we will not set the `viewName` property in the `bootstrap` method, but instead, we'll send a request first to the backend then on the success response we'll render the page.
 
 
-| key | Type | Default value | Description | 
-|---|---|---|---|
-| baseUrl | `String`, `Object` | `''` | The base url to your `Restful API`. It could be a string with the baseUrl api for your backend or it could be an object with `development` key for local backend and `production` for the production backend. If the backend is the same in both cases then put it as a `String` not as an `Object`.  | 
-| apiKey | `String` | `''` | If this option is set, then any request that doesn't require the user login will be sent with an `Authorization: key {apIKey}` header.| 
+`HomePage.js`
 
-This component have all the required methods for performing a full `Restful API` with your backend, which are:
-
-- [get](#get)
-- [post](#post)
-- [put](#put)
-- [delete](#delete)
-- [patch](#patch)
-
-However, there are little more bit here than the above methods.
-
-If you're going to send an `authorized` request for the backend, which means the user is already logged in and you want to send a request that indicates the user is logged in, in this case we will use the `authorizable()` method to tell the endpoint that the user is authorized to send a request while logging in.
-
-In that case, the `Authorization` header will be sent but this time with different key `Bearer` and the value will be the `accessToken` which could be sent as the second argument of the `authorizable()` method or it will be taken from the [user component](./user.md).
-
-
-### Examples
 ```javascript
-// config.js file
-Config.extend({
-    http: {
-        endpoint: {
-            baseUrl: 'https://my-backend.com/api',
-            apiKey: 'ADAS58HAS9125YBXZC9TQWPTYPQES5122ASFPTES',
-        },
-    },
-});
-
-// Home page
-
 class HomePage extends Layout.Page {
+    /**
+     * Set the main configurations of the page
+     *
+     * This method is triggered only once during the request life cycle
+     */
     bootstrap(endpoint) {
-        // first send a non-logged in user request
-        endpoint.get('/posts').then(response => {
-            // iin this case the following header will be sent
-            // Authorization: key ADAS58HAS9125YBXZC9TQWPTYPQES5122ASFPTES
-            // do something with the success response 
-        });
+        this.name = 'home';
 
-        // now let's tell the endpoint that the user from now is authorizable
-        // if the second argument is not sent, then the endpoint will try to get it
-        // from the `user` component using the `accessToken` method
-        endpoint.authorizable(true, 'user-access-token');
+        this.title = 'Home Page';
 
-        // send another request but this time it is an authorized request
-        endpoint.get('/posts').then(response => {
-            // iin this case the following header will be sent
-            // Authorization: Bearer user-access-token
-            // do something with the success response 
+        this.endpoint = endpoint;
+    }
+
+    /**
+     * This method is triggered once the visitors hits the home page route
+     */
+    init() {
+        this.endpoint.get('/home-data').then(response => {
+            this.response = response;
+
+            // now let's get the output of the html file.
+            let myPageView = this.view('page');
+
+            // set the output in the <main> tag to be rendered in the page. 
+            this.render(myPageView);
         });
     }
 }

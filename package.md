@@ -83,4 +83,4 @@ Adding new javascript files to the package will require another build to be cach
 
 > New Html and scss files don't need a rebuild for the application.
 
-If the server is already running it will rebuild the application automatically so you won't have to rebuild it again.
+> If the server is already running it will rebuild the application automatically so you won't have to rebuild it again.

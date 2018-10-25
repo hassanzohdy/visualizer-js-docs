@@ -114,7 +114,7 @@ So we may refine our user events on login or logout as follows:
   * {@inheritDoc}
   */
  init() {
-     let layout = DI.resolve('layout),
+     let layout = DI.resolve('layout'),
     user = DI.resolve('user');
 
     user.onLogin(() => {

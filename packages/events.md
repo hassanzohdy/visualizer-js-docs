@@ -134,7 +134,7 @@ let events = DI.resolve('events');
 events.emit('event', value1, value2, value3, ....values);
 ```
 
-> You can send any number of arguments to the method, all of these arguments will be passed to any listener to that event(s).
+> You can pass any number of arguments to the method, all of these arguments will be passed to any listener to that event(s).
 
 # Trigger
 An alias method to [emit](#emit) method.
@@ -171,4 +171,4 @@ events.subscribe('users.update', callback);
 events.subscribe('user.create', callback);
 ```
 
-If the action has more than a word, then it should be separated with a `-`, for example `user.profile-update`.
+If the action has more than a word, then it should be separated with a `-` for example `user.profile-update`.

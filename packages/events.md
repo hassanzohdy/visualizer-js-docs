@@ -125,7 +125,7 @@ An alias method to [subscribe](#subscribe) method.
 # Emit
 Trigger one more events.
 
-`emit(events: String, ...args: any): Self`.
+`emit(events: String,  ...args: any): Self`.
 
 ## Example
 ```javascript
@@ -133,6 +133,8 @@ let events = DI.resolve('events');
 
 events.emit('event', value1, value2, value3, ....values);
 ```
+
+> You can send any number of arguments to the method, all of these arguments will be passed to any listener to that event(s).
 
 # Trigger
 An alias method to [emit](#emit) method.
